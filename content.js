@@ -1,16 +1,22 @@
+// Extract page text
 const pageText = document.body.innerText;
 
-chrome.runtime.sendMessage(
-  {
-    type: "DETECT",
+// Call backend API directly
+fetch("https://dark-pattern-sentinel.onrender.com", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
     text: pageText,
-    url: window.location.href,
-  },
-  (response) => {
-    console.log("Detection Result:", response);
+  }),
+})
+  .then((res) => res.json())
+  .then((data) => {
+    console.log("Detection Result:", data);
 
-    if (response.patterns && response.patterns.length > 0) {
-      alert("⚠️ Dark Pattern Detected:\n" + response.patterns.join("\n"));
+    if (data.patterns && data.patterns.length > 0) {
+      alert("⚠️ Dark Pattern Detected:\n" + data.patterns.join("\n"));
     }
-  },
-);
+  })
+  .catch((err) => console.error("Error:", err));

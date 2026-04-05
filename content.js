@@ -2,7 +2,7 @@
 const pageText = document.body.innerText;
 
 // Call backend API directly
-fetch("https://dark-pattern-sentinel.onrender.com", {
+fetch("https://dark-pattern-sentinel.onrender.com/api/detect", {
   method: "POST",
   headers: {
     "Content-Type": "application/json",

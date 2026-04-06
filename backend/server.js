@@ -24,7 +24,12 @@ app.post("/api/detect", (req, res) => {
   const lowerText = text.toLowerCase();
 
   // Fake urgency
-  if (lowerText.includes("only") && lowerText.includes("left")) {
+  if (
+    lowerText.includes("only") ||
+    lowerText.includes("left") ||
+    lowerText.includes("hurry") ||
+    lowerText.includes("limited")
+  ) {
     patterns.push("⚠️ Fake Urgency");
   }
 

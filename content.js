@@ -7,11 +7,12 @@ setTimeout(() => {
     const text = el.innerText.toLowerCase();
 
     if (
-      text.includes("only") ||
-      text.includes("left") ||
-      text.includes("hurry") ||
-      text.includes("offer") ||
-      text.includes("limited")
+      (lowerText.includes("only") && lowerText.includes("left")) ||
+      (lowerText.includes("hurry") && lowerText.includes("offer")) ||
+      lowerText.includes("limited time") ||
+      lowerText.includes("offer ends") ||
+      lowerText.includes("in stock") ||
+      lowerText.includes("people are viewing")
     ) {
       found = true;
 

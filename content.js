@@ -1,18 +1,20 @@
 setTimeout(() => {
-  const elements = document.querySelectorAll("p, span, div, h1, h2, h3");
+  const elements = document.querySelectorAll("p, span, button, a, li");
 
   let found = false;
 
   elements.forEach((el) => {
     const text = el.innerText.toLowerCase();
 
+    if (!text || text.length < 20) return;
+
     if (
-      (lowerText.includes("only") && lowerText.includes("left")) ||
-      (lowerText.includes("hurry") && lowerText.includes("offer")) ||
-      lowerText.includes("limited time") ||
-      lowerText.includes("offer ends") ||
-      lowerText.includes("in stock") ||
-      lowerText.includes("people are viewing")
+      (text.includes("only") && text.includes("left")) ||
+      text.includes("limited time") ||
+      text.includes("offer ends") ||
+      text.includes("hurry") ||
+      text.includes("in stock") ||
+      text.includes("people are viewing")
     ) {
       found = true;
 
@@ -27,19 +29,22 @@ setTimeout(() => {
   }
 }, 3000);
 setTimeout(() => {
-  const elements = document.querySelectorAll("p, span, div, h1, h2, h3");
+  const elements = document.querySelectorAll("p, span, button, a, li");
 
   let found = false;
 
   elements.forEach((el) => {
     const text = el.innerText.toLowerCase();
 
+    if (!text || text.length < 20) return;
+
     if (
-      text.includes("only") ||
-      text.includes("left") ||
+      (text.includes("only") && text.includes("left")) ||
+      text.includes("limited time") ||
+      text.includes("offer ends") ||
       text.includes("hurry") ||
-      text.includes("offer") ||
-      text.includes("limited")
+      text.includes("in stock") ||
+      text.includes("people are viewing")
     ) {
       found = true;
 

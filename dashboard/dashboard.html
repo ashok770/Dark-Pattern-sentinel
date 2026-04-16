@@ -1,0 +1,145 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Dark Pattern Dashboard</title>
+
+    <style>
+      body {
+        font-family: Arial;
+        background: #0f172a;
+        color: white;
+        padding: 20px;
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      .cards {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        margin-bottom: 30px;
+      }
+
+      .card {
+        padding: 20px;
+        border-radius: 10px;
+        width: 200px;
+        text-align: center;
+        font-size: 18px;
+      }
+
+      .safe {
+        background: #16a34a;
+      }
+      .warning {
+        background: #facc15;
+        color: black;
+      }
+      .danger {
+        background: #dc2626;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        color: black;
+      }
+
+      th,
+      td {
+        padding: 10px;
+        border: 1px solid #ddd;
+        text-align: center;
+      }
+
+      th {
+        background: #1e293b;
+        color: white;
+      }
+
+      .badge {
+        padding: 5px 10px;
+        border-radius: 5px;
+        color: white;
+      }
+
+      .low {
+        background: green;
+      }
+      .medium {
+        background: orange;
+      }
+      .high {
+        background: red;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>🚨 Dark Pattern Analytics Dashboard</h1>
+
+    <div class="cards">
+      <div class="card safe" id="safe">Safe: 0</div>
+      <div class="card warning" id="warning">Warning: 0</div>
+      <div class="card danger" id="danger">Danger: 0</div>
+    </div>
+
+    <table id="table">
+      <tr>
+        <th>Website</th>
+        <th>Patterns</th>
+        <th>Score</th>
+        <th>Risk</th>
+        <th>Time</th>
+      </tr>
+    </table>
+
+    <script>
+      fetch("https://dark-pattern-sentinel.onrender.com/api/logs")
+        .then((res) => res.json())
+        .then((data) => {
+          const table = document.getElementById("table");
+
+          let safe = 0,
+            warning = 0,
+            danger = 0;
+
+          data.forEach((item) => {
+            const row = table.insertRow();
+
+            let risk = "Low";
+            let className = "low";
+
+            if (item.score > 60) {
+              risk = "High";
+              className = "high";
+              danger++;
+            } else if (item.score > 30) {
+              risk = "Medium";
+              className = "medium";
+              warning++;
+            } else {
+              safe++;
+            }
+
+            row.insertCell(0).innerText = item.url;
+            row.insertCell(1).innerText = item.patterns.join(", ");
+            row.insertCell(2).innerText = item.score;
+
+            const riskCell = row.insertCell(3);
+            riskCell.innerHTML = `<span class="badge ${className}">${risk}</span>`;
+
+            row.insertCell(4).innerText = new Date(item.time).toLocaleString();
+          });
+
+          document.getElementById("safe").innerText = "Safe: " + safe;
+          document.getElementById("warning").innerText = "Warning: " + warning;
+          document.getElementById("danger").innerText = "Danger: " + danger;
+        });
+    </script>
+  </body>
+</html>
